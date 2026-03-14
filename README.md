@@ -1,3 +1,9 @@
+![Python](https://img.shields.io/badge/Python-3.12-blue?style=for-the-badge&logo=python)
+![Flask](https://img.shields.io/badge/Flask-Framework-black?style=for-the-badge&logo=flask)
+![SQLAlchemy](https://img.shields.io/badge/SQLAlchemy-ORM-red?style=for-the-badge)
+![Bootstrap](https://img.shields.io/badge/Bootstrap-Frontend-purple?style=for-the-badge&logo=bootstrap)
+![TMDB](https://img.shields.io/badge/API-TMDB-green?style=for-the-badge)
+
 # 🎬 Movie Collection App
 ### A Flask web application that allows users to search for movies using the TMDB API, add them to a personal collection, rate them, and automatically rank them.
 
