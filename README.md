@@ -1,10 +1,14 @@
-![Python](https://img.shields.io/badge/Python-3.12-blue?style=for-the-badge&logo=python)
-![Flask](https://img.shields.io/badge/Flask-Framework-black?style=for-the-badge&logo=flask)
-![SQLAlchemy](https://img.shields.io/badge/SQLAlchemy-ORM-red?style=for-the-badge)
-![Bootstrap](https://img.shields.io/badge/Bootstrap-Frontend-purple?style=for-the-badge&logo=bootstrap)
-![TMDB](https://img.shields.io/badge/API-TMDB-green?style=for-the-badge)
-
 # 🎬 Movie Collection App
+
+![Python](https://img.shields.io/badge/Python-3.12-3776AB?logo=python&logoColor=white)
+![Flask](https://img.shields.io/badge/Flask-Web_App-000000?logo=flask&logoColor=white)
+![SQLAlchemy](https://img.shields.io/badge/SQLAlchemy-ORM-D71F00)
+![WTForms](https://img.shields.io/badge/WTForms-Forms_Framework-3C6E71)
+![Bootstrap](https://img.shields.io/badge/Bootstrap-5-7952B3?logo=bootstrap&logoColor=white)
+![Requests](https://img.shields.io/badge/Requests-HTTP_Client-2B5B84)
+![TMDB API](https://img.shields.io/badge/API-TMDB-01D277)
+![SQLite](https://img.shields.io/badge/SQLite-Database-003B57?logo=sqlite&logoColor=white)
+
 ### A Flask web application that allows users to search for movies using the TMDB API, add them to a personal collection, rate them, and automatically rank them.
 
 
