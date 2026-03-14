@@ -49,7 +49,7 @@
 
 Clone the repository:
 
-    git clone https://github.com/fernandogrh/flask-movie-application.git
+    git clone https://github.com/fernandogrh/flask-movie-collection.git
     cd flask-movie-application
 
 Create a virtual environment:
