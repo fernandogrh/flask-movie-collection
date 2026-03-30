@@ -1,15 +1,4 @@
 # 🎬 Movie Collection App
-<<<<<<< HEAD
-=======
-
-![Python](https://img.shields.io/badge/Python-3.12-3776AB?logo=python&logoColor=white)
-![Flask](https://img.shields.io/badge/Flask-Web_App-000000?logo=flask&logoColor=white)
-![SQLAlchemy](https://img.shields.io/badge/SQLAlchemy-ORM-D71F00)
-![Bootstrap](https://img.shields.io/badge/Bootstrap-5-7952B3?logo=bootstrap&logoColor=white)
-![TMDB API](https://img.shields.io/badge/API-TMDB-01D277)
-
-### A Flask web application that allows users to search for movies using the TMDB API, add them to a personal collection, rate them, and automatically rank them.
->>>>>>> bfce20e9f918095ee2aacfda79681b33ee55aa59
 
 ![Python](https://img.shields.io/badge/Python-3.12-3776AB?logo=python&logoColor=white)
 ![Flask](https://img.shields.io/badge/Flask-Web_App-000000?logo=flask&logoColor=white)
@@ -91,11 +80,8 @@ This project demonstrates real-world backend development with Flask, database ma
 Clone the repository:
 
     git clone https://github.com/fernandogrh/flask-movie-collection.git
-<<<<<<< HEAD
+
     cd flask-movie-collection
-=======
-    cd flask-movie-application
->>>>>>> bfce20e9f918095ee2aacfda79681b33ee55aa59
 
 Create a virtual environment:
 
