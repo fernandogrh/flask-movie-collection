@@ -15,9 +15,13 @@ tmdb_url = "https://api.themoviedb.org/3/search/movie"
 get_movie_details = "https://api.themoviedb.org/3/movie/{movie_id}"
 movie_db_image_url = "https://image.tmdb.org/t/p/w500"
 TMDB_API_KEY = os.getenv("TMDB_API_KEY")
+SECRET_KEY = os.getenv("SECRET_KEY")
+
+if not all([TMDB_API_KEY, SECRET_KEY]):
+    raise Exception("Missing TMDB_API_KEY or SECRET_KEY environment variables")
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
+app.config['SECRET_KEY'] = SECRET_KEY
 bootstrap = Bootstrap5(app)
 
 class EditForm(FlaskForm):
@@ -56,8 +60,8 @@ def home():
     db.session.commit()
     return render_template("index.html", movies=all_movies)
 
-@app.route("/edit/<int:movie_id>/<title>", methods = ["GET", "POST"])
-def edit(movie_id, title):
+@app.route("/edit/<int:movie_id>", methods=["GET", "POST"])
+def edit(movie_id):
     edit_form = EditForm()
     movie = db.get_or_404(Movie, movie_id)
     if edit_form.validate_on_submit():
@@ -65,9 +69,9 @@ def edit(movie_id, title):
         movie.review = edit_form.review.data
         db.session.commit()
         return redirect(url_for("home"))
-    return render_template("edit.html", form = edit_form, title=title)
+    return render_template("edit.html", form=edit_form, title=movie.title)
 
-@app.route("/delete/<int:movie_id>", methods = ["GET", "POST"])
+@app.route("/delete/<int:movie_id>", methods=["GET", "POST"])
 def delete(movie_id):
     movie = db.get_or_404(Movie, movie_id)
     db.session.delete(movie)
@@ -83,24 +87,43 @@ def add():
 
 @app.route("/select/<movie_name>", methods=["GET", "POST"])
 def select(movie_name):
-    similar_results = requests.get(tmdb_url, params={"api_key": TMDB_API_KEY, "query": movie_name}).json()["results"]
+    try:
+        response = requests.get(tmdb_url, params={"api_key": TMDB_API_KEY, "query": movie_name}, timeout=10)
+        response.raise_for_status()
+        data = response.json()
+        similar_results = data.get("results", [])
+    except requests.exceptions.RequestException as e:
+        print("TMDB API error: ", e)
+        similar_results = []
     return render_template("select.html", movie=movie_name, results=similar_results)
 
-@app.route("/movie/<movie_id>", methods=["GET", "POST"])
+@app.route("/movie/<int:movie_id>", methods=["GET", "POST"])
 def add_movie(movie_id):
-    movie_details = requests.get(get_movie_details.format(movie_id=movie_id), params={"api_key": TMDB_API_KEY}).json()
-    existing_movie = db.session.execute(db.select(Movie).where(Movie.title == movie_details["original_title"])).scalar()
+    try:
+        response = requests.get(get_movie_details.format(movie_id=movie_id), params={"api_key": TMDB_API_KEY}, timeout=10)
+        response.raise_for_status()
+        movie_details = response.json()
+    except requests.exceptions.RequestException as e:
+        print("TMDB API error: ", e)
+        return redirect(url_for("home"))
+    title = movie_details.get("original_title")
+    release_date = movie_details.get("release_date")
+    overview = movie_details.get("overview")
+    poster_path = movie_details.get("poster_path")
+    if not all([title, release_date, overview, poster_path]):
+        raise Exception("TMDB response is missing required movie data.")
+    existing_movie = db.session.execute(db.select(Movie).where(Movie.title == title)).scalar()
     if existing_movie:
         return redirect(url_for("home"))
     movie_to_add = Movie(
-        title=movie_details["original_title"],
-        year=int(movie_details["release_date"].split("-")[0]),
-        description=movie_details["overview"],
-        img_url=f'{movie_db_image_url}{movie_details["poster_path"]}'
+        title=title,
+        year=int(release_date.split("-")[0]),
+        description=overview,
+        img_url=f'{movie_db_image_url}{poster_path}'
     )
     db.session.add(movie_to_add)
     db.session.commit()
-    return redirect(url_for("edit", movie_id=movie_to_add.id, title=movie_details["original_title"]))
+    return redirect(url_for("edit", movie_id=movie_to_add.id))
 
 if __name__ == '__main__':
     app.run(debug=True)
